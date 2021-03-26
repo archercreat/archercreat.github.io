@@ -215,7 +215,7 @@ clang-11 -o lift_O3_opt -O3 -march=native bytecode.ll
 
 Что получилось:
 
-![](/posts/sprush_llvm/f4AU66F.png)
+![](/_posts/sprush_llvm/f4AU66F.png)
 
 И она даже работает!
 
