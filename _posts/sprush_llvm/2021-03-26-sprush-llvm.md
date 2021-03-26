@@ -198,11 +198,12 @@ static void cmp_reg_reg( instruction_info& info, context_info& context )
 Генерирует биткод:
 
 ```llvm
-%73 = load i32, i32* @R2
-%74 = icmp eq i32 %73, 32
-store i1 %74, i1* @ZF
-%75 = icmp uge i32 %73, 32
-store i1 %75, i1* @OF
+%172 = load i32, i32* @R0
+%173 = load i32, i32* @R1
+%174 = icmp eq i32 %172, %173
+store i1 %174, i1* @ZF
+%175 = icmp uge i32 %172, %173
+store i1 %175, i1* @OF
 ```
 
 ## Рекомпилируем
