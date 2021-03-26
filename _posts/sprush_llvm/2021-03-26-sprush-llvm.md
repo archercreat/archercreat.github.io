@@ -137,7 +137,7 @@ P.S. В данном случае функция `handler` создает LLVM I
 Мы перешли к самому интересному, нам необходимо описать каждую инструкцию байткода в LLVM IR. Кто читал статьи про Miasm заметит, что поднятие в LLVM IR практически ничем не отличается от поднятия в Miasm IR. Поскольку набор инструкций довольно мал и однотипен, приведу код нескольких обработчиков и соответствующее текстовое представление LLVM IR.
 
 Инструкция `INC reg` (`reg += 1`)
-```c++
+```cpp
 static void inc( instruction_info& info, context_info& context )
 {
     auto[program, builder] = context.ctx();
@@ -162,7 +162,7 @@ store i32 %71, i32* @R2
 ```
 
 Инструкция сравнения `CMP reg, reg`.
-```c++
+```cpp
 static void cmp_reg_reg( instruction_info& info, context_info& context )
 {
     auto[program, builder] = context.ctx();
@@ -194,7 +194,8 @@ store i1 %75, i1* @OF
 ## Рекомпилируем
 После дизассемблирования всех инструкций, мы можем сохранить LLVM IR в файл и с помощью компилятора `clang` собрать его в нужную нам архитектуру с максимальной оптимизацией :)
 Как выглядит наша функция в ассемблерном виде:
-```
+
+```llvm
 @memory = internal global [65536 x i8] zeroinitializer
 
 define void @main() {
