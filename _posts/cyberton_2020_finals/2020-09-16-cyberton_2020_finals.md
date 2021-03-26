@@ -13,15 +13,15 @@ tags: []
 
 Нам дан 32-битный эльф размером 228 байт. Попробовал открыть в Иде или любом другом дизассемблере, мы встречаем ряд интересных ошибок:
 
-![](26LDEDO.png)
+![](/assets/img/posts/cyberton_2020_finals/26LDEDO.png)
 
-![](ARMsLOm.png)
+![](/assets/img/posts/cyberton_2020_finals/ARMsLOm.png)
 
-![](DfEwTzB.png)
+![](/assets/img/posts/cyberton_2020_finals/DfEwTzB.png)
 
-![](o9lHc1B.png)
+![](/assets/img/posts/cyberton_2020_finals/o9lHc1B.png)
 
-![](13o8ZB6.png)
+![](/assets/img/posts/cyberton_2020_finals/13o8ZB6.png)
 
 В итоге Иде не получается загрузить наш файл и она умирает в агониях.
 
@@ -114,7 +114,7 @@ eax = 0x3  ; stdin
 ecx = esp  ; buffer
 ```
 
-![](djqIiuZ.png)
+![](/assets/img/posts/cyberton_2020_finals/djqIiuZ.png)
 
 После чего проверяется длина введенной строки. (системный вызов `read` возвращает кол-во прочитанных байт в регистре eax)
 
@@ -136,7 +136,7 @@ esi = адрес начала введенной строки
 ecx = длина введенной строки
 ```
 
-![](dGiKB6q.png)
+![](/assets/img/posts/cyberton_2020_finals/dGiKB6q.png)
 
 И так, на стэк пушатся 3 значения - `0x1f` `0x1e` `0x1e`, далее `key1` `key2` `key3`
 
@@ -291,7 +291,7 @@ int main()
 
 Все что требуется от нас - открыть программу в Ida64 и создать новый 64-битный сегмент начиная с адреса `8048612h`.
 
-![](45iHQHJ.png)
+![](/assets/img/posts/cyberton_2020_finals/45iHQHJ.png)
 
 ## Анализ 64-битного кода
 
@@ -306,11 +306,11 @@ int main()
 
 Вычисляется длина введенной строки (напомню, что адрес строки лежит в регистре rax):
 
-![](L6i4H0F.png)
+![](/assets/img/posts/cyberton_2020_finals/L6i4H0F.png)
 
 ### Алгоритм
 
-![](DeyE1Yd.png)
+![](/assets/img/posts/cyberton_2020_finals/DeyE1Yd.png)
 
 Переведя на си:
 
@@ -336,7 +336,7 @@ for (int i = 0; i < strlen(password); i++) {
 
 ### Проверка
 
-![](SKWoYZL.png)
+![](/assets/img/posts/cyberton_2020_finals/SKWoYZL.png)
 
 На стэке создается строка, после чего посимвольно сверяется с закодированным вводом.
 Кстати опять можно заметить длину флага - 0x23 байт.
@@ -402,7 +402,7 @@ print(out[::-1])
 
 Вот как он выглядит в дизассемблере:
 
-![](AdLoxjd.png)
+![](/assets/img/posts/cyberton_2020_finals/AdLoxjd.png)
 
 Как видно, поток выполнения не содержит циклов и каких либо операций над ключом.
 

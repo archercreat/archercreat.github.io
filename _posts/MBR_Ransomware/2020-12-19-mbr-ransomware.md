@@ -4,7 +4,7 @@ date: 2020-12-19 22:04:00 +07:00
 tags: []
 ---
 
-![](9PPowSC.png)
+![](/assets/img/posts/MBR_ransomware/9PPowSC.png)
 
 >Hello, reverse engineer! We have a task for you!
 >Mrs. G, a well known teacher at the University received an email from an evil human being pretending to be
@@ -28,7 +28,7 @@ In this challenge, we are given 3 files: `disk_image.vhd`, `homework.pdf` and `m
 
 Looking at the `mail.png` we can we see the message that the teacher recieved before got infected.
 
-![](tKpxLZ4.png)
+![](/assets/img/posts/MBR_ransomware/tKpxLZ4.png)
 
 Remember the date (12.11.2020 utc), this will come in handy later.
 
@@ -44,7 +44,7 @@ Looking at the ransomware main functionality we can see that:
 3) it loads new `MBR` from resources
 4) it replaces original MBR with malicious one
 
-![](AGs1HUh.png)
+![](/assets/img/posts/MBR_ransomware/AGs1HUh.png)
 
 The hash is padded with `0xEB` `0x0F`:
 
@@ -68,7 +68,7 @@ Let’s check out malicious mbr now. I will use qemu for this.
 qemu-system-i386 -drive format=raw,file=disk_image.vhd
 ```
 
-![](PKTkox8.png)
+![](/assets/img/posts/MBR_ransomware/PKTkox8.png)
 
 Pretty scary huh. Our goal now is to find what type of encryption it uses and can we break it.
 
@@ -76,13 +76,13 @@ Lets open it in our favorite disassembler:
 Looking at the entrypoint we see that it copies itself to `0x600` and then jumps to `0x644`.
 After that, it loads its main payload from disk, decrypts it and jumps to it:
 
-![](P1zhOFk.png)
+![](/assets/img/posts/MBR_ransomware/P1zhOFk.png)
 
 The actual fun stuff happens at `0x24AD`, this function handles key presses, printing to the screen and decryption.
 
 It is a good practise to use `findcrypt` plugin when analyzing ransomware. This time it found `AES` constants.
 
-![](j6aLfDS.png)
+![](/assets/img/posts/MBR_ransomware/j6aLfDS.png)
 
 So I think it is sufficient to say what type of encryption it uses. Now we have to find a key.
 
@@ -119,13 +119,13 @@ key: b'eb0f6661f1973d10ed31eeda28f05710'
 
 Let’s enter it:
 
-![](1jIhJls.png)
+![](/assets/img/posts/MBR_ransomware/1jIhJls.png)
 
 I could not find a good way to mount this image, so I used PhotoRec` to extract files.
 
 Between all the files there was an image with the flag:
 
-![](HSkm1zm.png)
+![](/assets/img/posts/MBR_ransomware/HSkm1zm.png)
 
 P.S. U could start qemu with `-s -S` flags and connect to it with the debugger. It took me several tries to understand how key is handled and if there is something more than just AES.
 
@@ -133,4 +133,4 @@ P.S. U could start qemu with `-s -S` flags and connect to it with the debugger. 
 
 The end :)
 
-![](UuTUBxt.jpg)
+![](/assets/img/posts/MBR_ransomware/UuTUBxt.jpg)

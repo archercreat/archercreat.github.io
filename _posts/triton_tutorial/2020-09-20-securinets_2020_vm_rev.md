@@ -52,7 +52,7 @@ int check(int a, int b)
 
 Пусть *a* и *b* - символьные переменные, *phi(n)* - *n*-ое выражение с символьными переменными, pi - предикат пути, sigma - набор символьных выражений, тогда функцию можно представить как:
 
-![](hihhl7tqeb26pcgyl_hyxm78tka.png)
+![](/assets/img/posts/triton_tutorial/hihhl7tqeb26pcgyl_hyxm78tka.png)
 
 На выходе мы получаем 2 системы уравнений state 1 и state 2, решив которые, мы найдем значения переменных a и b для прохода обоих путей.
 
@@ -71,7 +71,7 @@ int check(int a, int b)
 
 # Введение в Triton
 
-![](j4djglkcgslyfhrrepckpnkwani.png)
+![](/assets/img/posts/triton_tutorial/j4djglkcgslyfhrrepckpnkwani.png)
 
 *Triton* - Фреймворк для динамического анализа кода (DBA framework), в который входят такие инструменты как: движок для динамического символьного исполнения (DSE engine), движок для taint анализа (DTA engine), движок построения абстрактных синтаксических деревьев (AST) для x86, x86-64 и AArch64 архитектур, интерфейс для SMT-решателя. Triton также имеет Python-обвязку для своих библиотек.
 

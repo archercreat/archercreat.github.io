@@ -26,7 +26,7 @@ $ adb install task_MissingSo.apk
 Success
 ```
 
-![](uLEcVE1.png)
+![](/assets/img/posts/korean_local_ctf/uLEcVE1.png)
 
 Ничего интересного, пора посмотреть что внутри.
 
@@ -233,7 +233,7 @@ bool __cdecl Java_com_zxc_missingso_MainActivity_stringFromJNI(JNIEnv *a1, jobje
 
 Если глянуть на экспортируемые функции, то почти все они находятся в зашифрованном регионе:
 
-![](zg7UcZM.png)
+![](/assets/img/posts/korean_local_ctf/zg7UcZM.png)
 
 Можно предположить, что авторы хотели чтобы мы сдампили код из памяти.
 
@@ -264,7 +264,7 @@ port: `23946`
 
 Найдем из списка модулей нашу библиотеку:
 
-![](Mh0AXQz.png)
+![](/assets/img/posts/korean_local_ctf/Mh0AXQz.png)
 
 Найдем в памяти нужный регион и сдампим на диск:
 
@@ -342,7 +342,7 @@ decoded: XMAN{y0u_c4n_Dump_soo00OOOOO_RCNB}
 
 Повторяем все теже действия, что и с предыдущем файлом.
 
-![](M0YtYPc.png)
+![](/assets/img/posts/korean_local_ctf/M0YtYPc.png)
 
 ## Анализ
 
@@ -590,7 +590,7 @@ got main class: <class: com.example.sign.MainActivity>
 
 # LateProblem
 
-![](zfG2Alm.png)
+![](/assets/img/posts/korean_local_ctf/zfG2Alm.png)
 
 QR по центру дает вот такую строчку: `wxp://f2f0brA0Dbv82AsUilS0kWWIEYkLgcavi4tq`
 
@@ -772,7 +772,7 @@ Java.perform(function(x) {
 
 Нам открывается окно с еще одним QR кодом.
 
-![](U3jfUQk.png)
+![](/assets/img/posts/korean_local_ctf/U3jfUQk.png)
 
 В QR коде лежит base64 строчка, которая при расшифровки дает непонятно что.. `b'\\\x18V\x05\x10\x1f+@g\xd4\xa1\xea\x95\x16I\xb7\x92j\xc8\xe5\xb29'`
 
@@ -855,7 +855,7 @@ public class MainActivity extends AppCompatActivity {
 
 И получил флаг:
 
-![](UaXOzB2.png)
+![](/assets/img/posts/korean_local_ctf/UaXOzB2.png)
 
 Очень непонятный таск ¯\\(ツ)/¯
 
@@ -865,7 +865,7 @@ public class MainActivity extends AppCompatActivity {
 
 Приложение представляет собой frida-server с gui интерфейсом (это объясняет почему такой большой размер файла)
 
-![](KlwVMX4.png)
+![](/assets/img/posts/korean_local_ctf/KlwVMX4.png)
 
 Открыв в `jd-gui` можно заметить в `com.wrlus.fridahooker.flag.flag.class`
 
@@ -964,7 +964,7 @@ InputStream inputStream2 = assetManager.open("2");
 1. pdf архив
 2. текст
 
-![](5AoNLsx.png)
+![](/assets/img/posts/korean_local_ctf/5AoNLsx.png)
 
 Контент второго файла: `Please find the suitable file and replace me !`
 
@@ -990,7 +990,7 @@ d4488775d29bdef7993367d541064dbdda50d383f89f0aa13a6ff2e0894ba5ff  2
 
 В архиве лежит `frida.pcapng`, можно предположить что это траффик между frida-server’ом и клиентом.
 
-![](04lwZA7.png)
+![](/assets/img/posts/korean_local_ctf/04lwZA7.png)
 
 Не разбирая пакеты, можно сделать `strings` на файл и встретить вот такую строчку:
 
