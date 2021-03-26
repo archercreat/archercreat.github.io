@@ -22,7 +22,7 @@ author:
 
 # URL settings
 url: "archercreat.github.io/" #
-baseurl: /archercreat.github.io
+baseurl: 
 permalink: /:title/
 google_analytics: # leave it blank if not wish
 fb_appid:
@@ -88,4 +88,4 @@ exclude:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
-  - jekyll-postfiles
+#  - jekyll-postfiles
