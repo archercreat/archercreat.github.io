@@ -222,7 +222,7 @@ clang-11 -o lift_O3_opt -O3 -march=native bytecode.ll
 
 ![](/assets/img/posts/sprush_llvm/f4AU66F.png)
 
-И она даже работает!
+И оно даже работает!
 
 
 
