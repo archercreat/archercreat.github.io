@@ -29,26 +29,29 @@ int sum(int a, int b) {
 ```
 Компилятор `clang`, помимо компиляции, может создать файл с биткодом llvm:
 ```
-clang sum.c -emit-llvm -c -o sum.bc
+clang sum.c -emit-llvm -S
 ```
 
 Контент файла:
 
 ```llvm
-target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:
-16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:
-128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128"
+; ModuleID = 'sum.c'
+source_filename = "sum.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
 
-define i32 @sum(i32 %a, i32 %b) #0 {
-entry:
-  %a.addr = alloca i32, align 4
-  %b.addr = alloca i32, align 4
-  store i32 %a, i32* %a.addr, align 4
-  store i32 %b, i32* %b.addr, align 4
-  %0 = load i32* %a.addr, align 4
-  %1 = load i32* %b.addr, align 4
-  %add = add nsw i32 %0, %1
-  ret i32 %add
+; Function Attrs: noinline nounwind optnone uwtable
+define dso_local i32 @sum(i8 zeroext %0, i8 zeroext %1) #0 {
+  %3 = alloca i8, align 1
+  %4 = alloca i8, align 1
+  store i8 %0, i8* %3, align 1
+  store i8 %1, i8* %4, align 1
+  %5 = load i8, i8* %3, align 1
+  %6 = zext i8 %5 to i32
+  %7 = load i8, i8* %4, align 1
+  %8 = zext i8 %7 to i32
+  %9 = add nsw i32 %6, %8
+  ret i32 %9
 }
 ```
 
