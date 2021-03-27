@@ -5,4 +5,4 @@ git push
 
 # save blog backup
 7z a blog_backup.7z *
-blog_backup.7z /mnt/c/Users/Archer/iCloudDrive/
+mv blog_backup.7z /mnt/c/Users/Archer/iCloudDrive/
