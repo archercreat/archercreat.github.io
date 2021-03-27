@@ -19,10 +19,10 @@ gem "jekyll", "~> 4.1.0"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
+  gem 'jekyll-seo-tag'
   gem 'jekyll-feed', '~> 0.13'
   gem 'jekyll-sitemap', '~> 1.4'
   gem 'jekyll-compose', '~> 0.12.0'
-  gem 'jekyll-postfiles', '~> 3.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
