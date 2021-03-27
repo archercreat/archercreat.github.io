@@ -3,7 +3,7 @@ title: Рекомпиляция байткода виртуальной маши
 date: 2021-03-26 23:04:00 +07:00
 tags: [LLVM, virtual machine]
 image:
- path: /assets/img/posts/sprush_llvm/7tY1edP.png
+ path: assets/img/posts/sprush_llvm/7tY1edP.png
 ---
 
 В прошлые выходные мы с командой играли SPRUSH CTF и поскольку у меня появилась свободная минута, хотелось бы рассказать о еще одной технике анализа вм на примере одного задания. 
