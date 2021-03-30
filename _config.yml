@@ -85,7 +85,7 @@ exclude:
   - lighthouse.png
   - klise-*.gem
   - klise.gemspec
-  - *.sh
+  - push.*
   - blog_backup.*
 
 
