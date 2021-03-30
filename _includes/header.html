@@ -38,4 +38,7 @@
   
   <link rel="stylesheet" href="/assets/css/style.css" />
   {% seo %}
+  {%- if site.google_analytics -%}
+  {% include analytics.html %}
+  {%- endif -%}
 </head>
