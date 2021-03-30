@@ -24,8 +24,11 @@ author:
 url: #
 baseurl: 
 permalink: /:title/
-google_analytics: UA-171732879-1
-fb_appid:
+
+jekyll_analytics:
+  GoogleAnalytics:          # Add, if you want to track with Google Analytics
+    id: UA-171732879-1      # Required - replace with your tracking id
+    anonymizeIp: true       # Optional - Default: false - set to true for anonymized tracking
 
 # Collection setting
 collections:
@@ -90,3 +93,4 @@ plugins:
   - jekyll-sitemap
   - jekyll-compose
   - jekyll-seo-tag
+  - jekyll-analytics
