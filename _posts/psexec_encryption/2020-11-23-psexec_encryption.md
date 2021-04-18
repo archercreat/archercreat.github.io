@@ -39,13 +39,13 @@ image: /assets/img/posts/psexec_encryption/TA8yqVA.png
 
 ![](/assets/img/posts/psexec_encryption/d0eA0DL.png)
 
-После чего с помощью `NtFsControlFile` и IRP кода `0x1401a3` заполняется 16 неизвестных байт из `output` буффера.
+После чего с помощью `NtFsControlFile` IOCTL кода `0x1401a3` заполняется 16 неизвестных байт из `output` буффера.
 
 ![](/assets/img/posts/psexec_encryption/S8GOqLo.png)
 
-К сожалению, информации по данному IRP в открытом доступе я не нашел, поэтому решил заглянуть в слитые исходники Windows XP. 
+К сожалению, информации по данному IOCTL в открытом доступе я не нашел, поэтому решил заглянуть в слитые исходники Windows XP. 
 
-Для начала поймем какой номер функции используется в IRP:
+Для начала поймем какой номер функции используется в IOCTL:
 
 ```bash
 python .\ioctl.py 0x1401a3
