@@ -266,7 +266,7 @@ fffff800`65204a10 mrxsmb!SmbCryptoHashGetOutputLength (SmbCryptoHashGetOutputLen
 
 Эта функция имеет только 1 xref с очень интересным названием, а 2-ым аргументом передается 16 байтовый ключ. 
 
-Выпишем этот ключ:
+Выпишем этот ключ с помощью WinDbg скрипта:
 
 ```javascript
  /// <reference path="JSProvider.d.ts" />
