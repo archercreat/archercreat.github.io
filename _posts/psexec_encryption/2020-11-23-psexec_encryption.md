@@ -260,7 +260,7 @@ fffff800`65204a10 mrxsmb!SmbCryptoHashGetOutputLength (SmbCryptoHashGetOutputLen
 ```
 
 Для этого был написан WinDbg скрипт, который трейсил и логировал вызовы функций. 
-Из всего списка функций меня привлекла `SmbCryptoCreateCipherKeys`, Она вызывалась одной из первых и только 1 раз.
+Из всего списка перехваченных функций меня привлекла `SmbCryptoCreateCipherKeys`. Она вызывалась одной из первых и только 1 раз.
 
 ![](/assets/img/posts/psexec_encryption/HYCtUza.png)
 
@@ -337,7 +337,7 @@ function invokeScript() {
 
 Как видно, mrxsmb20 вызывает эту функцию в последней стадии установки сессии с удаленным хостом.
 
-В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку, можно заметить, что он используется еще в одной функции ниже.
+В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку можно заметить, что он используется еще в одной функции ниже.
 
 ![](/assets/img/posts/psexec_encryption/33MHgAl.png)
 
