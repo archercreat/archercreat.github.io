@@ -260,7 +260,7 @@ fffff800`65204a10 mrxsmb!SmbCryptoHashGetOutputLength (SmbCryptoHashGetOutputLen
 ```
 
 Для этого был написан WinDbg скрипт, который трейсил и логировал вызовы функций. 
-Из всего списка функций меня привлекла `SmbCryptoCreateCipherKeys`, Она вызывалась в самом начале и только 1 раз.
+Из всего списка функций меня привлекла `SmbCryptoCreateCipherKeys`, Она вызывалась одной из первых и только 1 раз.
 
 ![](/assets/img/posts/psexec_encryption/HYCtUza.png)
 
