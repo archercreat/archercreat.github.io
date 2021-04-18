@@ -350,7 +350,7 @@ function invokeScript() {
 
 ![](/assets/img/posts/psexec_encryption/7fKYBeU.png)
 
-Сама функция - обертка над `SP800-108 hmac SHA256`, где в качестве ключа - используется наш сессионный ключ.
+`SmbCryptoCreateApplicationKey` - обертка над `SP800-108 hmac SHA256`, где в качестве ключа - используется наш сессионный ключ.
 
 Попробуем перехватить ApplicationKey сразу после вызова `SmbCryptoSp800108CtrHmacSha256DeriveKey` и залогировать его:
 
