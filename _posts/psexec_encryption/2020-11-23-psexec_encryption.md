@@ -337,7 +337,7 @@ function invokeScript() {
 
 Как видно, mrxsmb20 вызывает эту функцию в последней стадии установки сессии с удаленным хостом.
 
-В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку, можно заметить, что ключ используется еще в одной функции ниже.
+В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку, можно заметить, что он используется еще в одной функции ниже.
 
 ![](/assets/img/posts/psexec_encryption/33MHgAl.png)
 
@@ -346,7 +346,7 @@ function invokeScript() {
 ![](/assets/img/posts/psexec_encryption/J8nMJQ3.png)
 
 То есть если версия диалекта (SMB протокола) >= 3.0, создается ApplicationKey, который перезаписывает UserSessionKey.
-Если же нет, `ApplicationKey = UserSessionKey`.
+Если же нет, UserSessionKey не изменяется.
 
 ![](/assets/img/posts/psexec_encryption/7fKYBeU.png)
 
