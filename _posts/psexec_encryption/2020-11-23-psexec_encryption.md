@@ -337,11 +337,11 @@ function invokeScript() {
 
 Как видно, mrxsmb20 вызывает эту функцию в последней стадии установки сессии с удаленным хостом.
 
-В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку можно заметить, что он используется еще в одной функции ниже.
+В `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку можно заметить, что он используется еще в одной функции ниже.
 
 ![](/assets/img/posts/psexec_encryption/33MHgAl.png)
 
-Сама функция:
+Сама Smb2DeriveApplicationKey:
 
 ![](/assets/img/posts/psexec_encryption/J8nMJQ3.png)
 
