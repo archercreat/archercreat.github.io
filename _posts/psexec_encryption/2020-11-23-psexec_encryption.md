@@ -352,7 +352,7 @@ function invokeScript() {
 
 Сама функция - обертка над `SP800-108 hmac SHA256`, где в качестве ключа - используется наш сессионный ключ.
 
-Попробуем перехватить сразу после вызова `SmbCryptoSp800108CtrHmacSha256DeriveKey` и залогировать ApplicationKey:
+Попробуем перехватить ApplicationKey сразу после вызова `SmbCryptoSp800108CtrHmacSha256DeriveKey` и залогировать его:
 
 ```javascript
 ...
