@@ -389,6 +389,10 @@ function invokeScript() {
 
 # Выводы
 
+Вся работа с SMB хорошо описана в [impacket](https://github.com/SecureAuthCorp/impacket) библиотеке. 
+
+А получение Application Key для SMB 3.X диалекта можно найти [здесь](https://github.com/SecureAuthCorp/impacket/blob/80b02561b43812a00ec2a9c739f01c96c1a3b650/impacket/smb3.py#L1030).
+
 Стоит заметить, что ApplicationKey используется только если версия диалекта >= 3, во всех остальных случаях для расшифровки трафика достаточно достать NTLMv2 SessionKey.
 
 Код библиотеки и WinDbg скрипт доступны [тут](https://github.com/archercreat/Panda).
