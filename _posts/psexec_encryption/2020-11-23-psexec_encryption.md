@@ -39,13 +39,13 @@ image: /assets/img/posts/psexec_encryption/topkek.png
 
 ![](/assets/img/posts/psexec_encryption/d0eA0DL.png)
 
-После чего с помощью `NtFsControlFile` и IRP кода `0x1401a3` заполняется 16 неизвестных байт из `output` буффера.
+После чего с помощью `NtFsControlFile` IOCTL кода `0x1401a3` заполняется 16 неизвестных байт из `output` буффера.
 
 ![](/assets/img/posts/psexec_encryption/S8GOqLo.png)
 
-К сожалению, информации по данному IRP в открытом доступе я не нашел, поэтому решил заглянуть в слитые исходники Windows XP. 
+К сожалению, информации по данному IOCTL в открытом доступе я не нашел, поэтому решил заглянуть в слитые исходники Windows XP. 
 
-Для начала поймем какой номер функции используется в IRP:
+Для начала поймем какой номер функции используется в IOCTL:
 
 ```bash
 python .\ioctl.py 0x1401a3
@@ -260,13 +260,13 @@ fffff800`65204a10 mrxsmb!SmbCryptoHashGetOutputLength (SmbCryptoHashGetOutputLen
 ```
 
 Для этого был написан WinDbg скрипт, который трейсил и логировал вызовы функций. 
-Из всего списка функций меня привлекла `SmbCryptoCreateCipherKeys`, Она вызывалась в самом начале и только 1 раз.
+Из всего списка перехваченных функций меня привлекла `SmbCryptoCreateCipherKeys`. Она вызывалась одной из первых и только 1 раз.
 
 ![](/assets/img/posts/psexec_encryption/HYCtUza.png)
 
 Эта функция имеет только 1 xref с очень интересным названием, а 2-ым аргументом передается 16 байтовый ключ. 
 
-Выпишем этот ключ:
+Выпишем этот ключ с помощью WinDbg скрипта:
 
 ```javascript
  /// <reference path="JSProvider.d.ts" />
@@ -337,22 +337,22 @@ function invokeScript() {
 
 Как видно, mrxsmb20 вызывает эту функцию в последней стадии установки сессии с удаленным хостом.
 
-В фунции `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку, можно заметить, что ключ используется еще в одной функции ниже.
+В `mrxsmb20!ValidateSessionSetupSecurityBlob`, которая передает сессионный ключ далее по стэку можно заметить, что он используется еще в одной функции ниже.
 
 ![](/assets/img/posts/psexec_encryption/33MHgAl.png)
 
-Сама функция:
+Сама Smb2DeriveApplicationKey:
 
 ![](/assets/img/posts/psexec_encryption/J8nMJQ3.png)
 
 То есть если версия диалекта (SMB протокола) >= 3.0, создается ApplicationKey, который перезаписывает UserSessionKey.
-Если же нет, `ApplicationKey = UserSessionKey`.
+Если же нет, UserSessionKey не изменяется.
 
 ![](/assets/img/posts/psexec_encryption/7fKYBeU.png)
 
-Сама функция - обертка над `SP800-108 hmac SHA256`, где в качестве ключа - используется наш сессионный ключ.
+`SmbCryptoCreateApplicationKey` - обертка над `SP800-108 hmac SHA256`, где в качестве ключа - используется наш сессионный ключ.
 
-Попробуем перехватить сразу после вызова `SmbCryptoSp800108CtrHmacSha256DeriveKey` и залогировать ApplicationKey:
+Попробуем перехватить ApplicationKey сразу после вызова `SmbCryptoSp800108CtrHmacSha256DeriveKey` и залогировать его:
 
 ```javascript
 ...
