@@ -2,7 +2,7 @@
 title: Поиск иголки в стоге сена или как PsExec шифрует трафик
 date: 2021-04-18 21:04:00 +07:00
 tags: [Windows Internals]
-image: /assets/img/posts/psexec_encryption/TA8yqVA.png
+image: /assets/img/posts/psexec_encryption/topkek.png
 ---
 
 ![](/assets/img/posts/psexec_encryption/TA8yqVA.png)
