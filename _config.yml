@@ -29,6 +29,10 @@ baseurl:
 permalink: /:title/
 google_analytics: UA-171732879-1
 
+
+feed:
+  path: feed.xml
+
 # Collection setting
 collections:
   posts:
