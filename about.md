@@ -10,4 +10,3 @@ comments: false
 
 - {{ site.author.email }}
 - github.com/{{ site.author.github }}
-- linkedin.com/in/archercreat
