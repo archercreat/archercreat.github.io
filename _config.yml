@@ -89,10 +89,6 @@ exclude:
   - lighthouse.png
   - klise-*.gem
   - klise.gemspec
-  - bootstrap.sh
-  - push.sh
-  - gameset.nix
-  - shell.nix
 
 
 # Plugins
