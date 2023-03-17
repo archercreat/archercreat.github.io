@@ -139,7 +139,7 @@
   h6 {
     color: $black;
     font-weight: $bold-weight;
-    margin-top: $spacing-full;
+    margin-top: $spacing-full - 20;
     margin-bottom: 0;
 
     &:hover {
@@ -170,6 +170,8 @@
 
   h2 {
     @include relative-font-size(1.375);
+    border-bottom: 1px solid $light;
+    padding-bottom: 4px;
   }
 
   h3 {

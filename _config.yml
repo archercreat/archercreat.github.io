@@ -6,7 +6,7 @@ lang: en-US # default lang
 timezone: Europe/Moscow # set your timezone
 image: assets/img/ogp.png # This image used for Open Graph more info https://ogp.me/
 repo: https://github.com/archercreat/archercreat.github.io # site repo [optional]
-mode: dark # default theme "dark" | "light"
+mode: light # default theme "dark" | "light"
 
 # Profile settings
 author:
@@ -89,6 +89,10 @@ exclude:
   - lighthouse.png
   - klise-*.gem
   - klise.gemspec
+  - bootstrap.sh
+  - push.sh
+  - gameset.nix
+  - shell.nix
 
 
 # Plugins
