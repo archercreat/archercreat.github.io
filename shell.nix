@@ -18,7 +18,6 @@ in
     ];
 
     shellHook = ''
-      alias publish='git add .; git commit -m "PogChamp"; git push'
-      # exec ${env}/bin/jekyll serve --host 0.0.0.0 --watch
+      exec ${env}/bin/jekyll serve --host 0.0.0.0 --watch
     '';
   }
