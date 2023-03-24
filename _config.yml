@@ -80,10 +80,12 @@ exclude:
   - CNAME
   - Gemfile
   - Gemfile.lock
+  - shell.nix
+  - gemset.nix
   - LICENSE
+  - node_modules
   - CHANGELOG.md
   - README.md
-  - node_modules
   - CODE_OF_CONDUCT.md
   - CONTRIBUTING.md
   - lighthouse.png

@@ -208,7 +208,7 @@ in
   }
 ```
 
-## Полезные ссылки
+## Литература
 
 - https://nixos.org/guides/ad-hoc-developer-environments.html
 - https://devenv.sh/
