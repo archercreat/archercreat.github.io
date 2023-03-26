@@ -14,7 +14,7 @@ Nix - это дистрибутив (NixOS) и пакетный менеджер
 
 Команда [nix-shell](https://nixos.org/manual/nix/stable/command-ref/nix-shell.html) управляет зависимостями рецепта: их загрузкой, сборкой и настройкой окружения. `nix-shell` можно сравнить с `venv` питона, только помимо зависимостей (библиотек), она позволяет устанавливать различные программы:
 
-```
+```bash
 $ nix-shell -p stdenv
 these 4 paths will be fetched (0.03 MiB download, 0.17 MiB unpacked):
   /nix/store/45a55rzx3k794626g8adslzc6557gh0j-expand-response-params
@@ -32,7 +32,7 @@ copying path '/nix/store/c3f4jdwzn8fm9lp72m91ffw524bakp6v-stdenv-linux' from 'ht
 Здесь создается окружение с единственным пакетом `stdenv`, в который входит `gcc` компилятор, `make` и другие базовые программы. Если запустить `nix-shell` без аргументов, конфигурация загрузится из `shell.nix`.
 ## Настройка окружения
 Начнем с простого. У меня есть проект, который нужно собрать с помощью `cmake` и `clang-15`. Проект так же будет зависеть от трех библиотек: [fmt](https://github.com/fmtlib/fmt), [range-v3](https://github.com/ericniebler/range-v3) и [LLVM 15](https://github.com/llvm/llvm-project/tree/release/15.x). К счастью, пакетный менеджер предлагает [более 80 тыс. различных пакетов](https://search.nixos.org/packages) и эти библиотеки точно в нем есть. Поэтому `shell.nix` файл будет выглядеть следующим образом:
-```
+```nix
 { pkgs ? import <nixpkgs> {} }:
 let
   stdenv = pkgs.llvmPackages_15.stdenv;
@@ -54,22 +54,22 @@ in rec {
 }
 ```
 Здесь `pkgs` - коллекция пакетов (рецептов) из `https://search.nixos.org/packages`:
-```
+```nix
 { pkgs ? import <nixpkgs> {} }:
 ```
 Стандартное окружение перезаписывается окружением из пакета [llvmPackages_15](https://search.nixos.org/packages?channel=22.11&show=llvmPackages_15.stdenv&from=0&size=50&sort=relevance&type=packages&query=llvmPackages_15). Благодаря этому сборка проекта и зависимостей будет производиться компилятором `clang-15`:
-```
+```nix
 stdenv = pkgs.llvmPackages_15.stdenv;
 ```
 В этом файле есть один рецепт под названием project. В нем переменной `nativeBuildInputs` описываются `build-time` зависимости, т.е. система сборки:
-```
+```nix
 nativeBuildInputs = [
       pkgs.cmake
       pkgs.ninja
     ];
 ```
 `runtime` зависимости т.е. динамические библиотеки описываются переменной `buildInputs`:
-```
+```nix
 buildInputs = [
       pkgs.range-v3
       pkgs.fmt
@@ -77,7 +77,7 @@ buildInputs = [
     ];
 ```
 После запуска `nix-shell`, все скомпилированные зависимости загрузятся и будут доступны в cmake через функцию `find_package`:
-```
+```cmake
 cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -99,7 +99,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 ## Сборка пакета из исходных файлов
 
 Допустим требуется библиотека, которой нет у пакетного менеджера или пакет, который чем-то не устраивает, например `z3`. По какой-то непонятной причине, в пакете `z3` отсутствует `cmake` файл из-за чего `find_package` его не найдет. Чтобы решить эту проблему, необходимо написать рецепт под свою версию `z3` и собрать его из исходных файлов:
-```
+```nix
 z3 = stdenv.mkDerivation rec {
     version = "4.12.1";
     name = "z3-${version}";
@@ -127,14 +127,14 @@ z3 = stdenv.mkDerivation rec {
   };
 ```
 Сначала нужно указать откуда скачать исходные файлы. В Nix есть [огромное](https://nixos.org/manual/nixpkgs/stable/#chap-pkgs-fetchers) кол-во способов скачать исходные файлы: `fetchzip`, `fetchurl`, `fetchFromGithub`, `fetchFromGitlab`, и т.д. `fetchurl` и `fetchzip` знают как работать с архивами, поэтому после загрузки они их еще и распакуют:
-```
+```nix
 src = pkgs.fetchurl {
       url = "https://github.com/Z3Prover/z3/archive/refs/tags/z3-4.12.1.tar.gz";
       sha256 = "sha256-o3Nfq/AOE0GtzHA5SZPAX9PirhZ6Ppu0YEXjMITrZKM=";
     };
 ```
 Переменной `cmakeFlags` можно передать дополнительный список переменных в `cmake` на этапе конфигурации проекта:
-```
+```nix
 cmakeFlags = [
       "-DZ3_BUILD_DOCUMENTATION=OFF"
     ];
@@ -153,13 +153,13 @@ includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
 Дело в том, что переменные `prefix`, `exec_prefix`, `CMAKE_INSTALL_LIBDIR`, и т.д. будут содержать полные пути директорий и из-за этого `libdir`, `sharedlibdir` и `includedir` будут равны `/nix/store/хэш-z3//nix/store/хэш…`.
 
 Хоть мы и не используем `pkg-config`, Nix все равно будет ругаться, что пути неверные, поэтому исходники необходимо подредактировать. Эта команда просто удалит префиксы из файла:
-```
+```nix
 postPatch = "substituteInPlace z3.pc.cmake.in \
   --replace '=\$\{exec_prefix\}/' '' \
   --replace '=\$\{prefix\}/' ''";
 ```
 Далее включаем библиотеку `z3` в список `runtime` зависимостей и теперь она так же будет доступна через `find_package`:
-```
+```nix
 buildInputs = [
       pkgs.range-v3
       pkgs.fmt
@@ -171,11 +171,11 @@ buildInputs = [
 ## Заморозка зависимостей
 
 Рецепт выше является воспроизводимым, но не детерминированным. Версии пакетов и пакетного менеджера меняются и через некоторое время `pkgs.fmt`, `pkgs.range-v3` и остальные зависимости будут иметь другие версии. Чтобы достичь детерминированности, необходимо заморозить версию пакетного менеджера. Для этого вместо:
-```
+```nix
 { pkgs ? import <nixpkgs> {} }:
 ```
 Нужно написать:
-```
+```nix
 { pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/06278c77b5d162e62df170fec307e83f1812d94b.tar.gz") {} }:
 ```
 Где `06278c77b5d162e62df170fec307e83f1812d94b.tar.gz` - определенная версия Nixpkgs. 
@@ -183,7 +183,7 @@ buildInputs = [
 ## Заключение
 
 `nix-shell` - это мощный инструмент, который значительно упрощает управление зависимостями и обеспечивает репродуцируемость среды разработки. В этой статье я рассказал что такое Nix, как с помощью `nix-shell` можно собрать воспроизводимую среду разработки и привел пример своего рецепта окружения. Кстати для локальной сборки этого блога я так же использую `nix-shell`:
-```
+```nix
 with import <nixpkgs> {};
 let
   env = pkgs.bundlerEnv rec {
@@ -219,7 +219,7 @@ in
 ## Приложения
 
 Полный рецепт окружения:
-```
+```nix
 { pkgs ? import <nixpkgs> {} }:
 let
   stdenv = pkgs.llvmPackages_15.stdenv;
@@ -292,7 +292,7 @@ in rec {
 }
 ```
 `CmakeLists.txt` проекта:
-```
+```cmake
 cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
