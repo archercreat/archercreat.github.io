@@ -168,6 +168,41 @@ buildInputs = [
     ]
 ```
 
+## Изменение уже существующего рецепта
+
+Бывают случаи, когда нужно обновить версию пакета или url для скачивания и чтобы не писать рецепт заново, его можно перезаписать. Например в рецепте `xed` от Intel, как и в случае с `z3`, отсутстует `cmake` файл. Только сборка из исходных файлов его не добавит, поэтому необходимо добавить его руками, взяв за основу уже существующий рецепт: 
+```nix
+xed = pkgs.xed.overrideAttrs (finalAttrs: previousAttrs: {
+    buildPhase = previousAttrs.buildPhase + ''
+      mkdir -p $out/lib/cmake/xed/
+
+      echo '
+      set(XED_LIBRARY_DIR "''${CMAKE_CURRENT_LIST_DIR}/../../../lib")
+      set(XED_LIBRARIES "''${XED_LIBRARY_DIR}/libxed''${CMAKE_STATIC_LIBRARY_SUFFIX}" "''${XED_LIBRARY_DIR}/libxed-ild''${CMAKE_STATIC_LIBRARY_SUFFIX}")
+      set(XED_INCLUDE_DIRS "''${CMAKE_CURRENT_LIST_DIR}/../../../include")
+
+      add_library(XED::Main STATIC IMPORTED)
+      set_target_properties(XED::Main PROPERTIES
+          IMPORTED_LOCATION "''${XED_LIBRARY_DIR}/libxed''${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      )
+
+      add_library(XED::ILD STATIC IMPORTED)
+      set_target_properties(XED::ILD PROPERTIES
+          IMPORTED_LOCATION "''${XED_LIBRARY_DIR}/libxed-ild''${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      )
+
+      add_library(XED::XED INTERFACE IMPORTED)
+      set_target_properties(XED::XED PROPERTIES
+          INTERFACE_INCLUDE_DIRECTORIES "''${XED_INCLUDE_DIRS}"
+          INTERFACE_LINK_LIBRARIES "XED::Main;XED::ILD"
+      )
+      ' >> $out/lib/cmake/xed/XEDConfig.cmake
+    '';
+  });
+```
+
+К уже существующему `buildPhase` добавляется скрипт, который создает файл `XEDConfig.cmake` в директории `$out/lib/cmake/xed`. Стоит заметить, что чтобы экранировать `$`, необходимо перед ним добавить `''` (см. [документацию](https://nixos.org/manual/nix/stable/language/values.html#type-string)).
+
 ## Заморозка зависимостей
 
 Рецепт выше является воспроизводимым, но не детерминированным. Версии пакетов и пакетного менеджера меняются и через некоторое время `pkgs.fmt`, `pkgs.range-v3` и остальные зависимости будут иметь другие версии. Чтобы достичь детерминированности, необходимо заморозить версию пакетного менеджера. Для этого вместо:
@@ -272,6 +307,34 @@ let
     ];
   };
 
+  xed = pkgs.xed.overrideAttrs (finalAttrs: previousAttrs: {
+    buildPhase = previousAttrs.buildPhase + ''
+      mkdir -p $out/lib/cmake/xed/
+
+      echo '
+      set(XED_LIBRARY_DIR "''${CMAKE_CURRENT_LIST_DIR}/../../../lib")
+      set(XED_LIBRARIES "''${XED_LIBRARY_DIR}/libxed''${CMAKE_STATIC_LIBRARY_SUFFIX}" "''${XED_LIBRARY_DIR}/libxed-ild''${CMAKE_STATIC_LIBRARY_SUFFIX}")
+      set(XED_INCLUDE_DIRS "''${CMAKE_CURRENT_LIST_DIR}/../../../include")
+
+      add_library(XED::Main STATIC IMPORTED)
+      set_target_properties(XED::Main PROPERTIES
+          IMPORTED_LOCATION "''${XED_LIBRARY_DIR}/libxed''${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      )
+
+      add_library(XED::ILD STATIC IMPORTED)
+      set_target_properties(XED::ILD PROPERTIES
+          IMPORTED_LOCATION "''${XED_LIBRARY_DIR}/libxed-ild''${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      )
+
+      add_library(XED::XED INTERFACE IMPORTED)
+      set_target_properties(XED::XED PROPERTIES
+          INTERFACE_INCLUDE_DIRECTORIES "''${XED_INCLUDE_DIRS}"
+          INTERFACE_LINK_LIBRARIES "XED::Main;XED::ILD"
+      )
+      ' >> $out/lib/cmake/xed/XEDConfig.cmake
+    '';
+  });
+
 in rec {
   project = stdenv.mkDerivation {
     name = "my-project";
@@ -286,6 +349,7 @@ in rec {
       pkgs.fmt
       pkgs.llvm_15
       z3
+      xed
       triton
     ];
   };
@@ -305,6 +369,7 @@ find_package(fmt CONFIG REQUIRED)
 find_package(LLVM 15.0 CONFIG REQUIRED)
 find_package(triton CONFIG REQUIRED)
 find_package(range-v3 CONFIG REQUIRED)
+find_package(XED CONFIG REQUIRED)
 
 llvm_map_components_to_libnames(llvm_libs
   support core irreader
@@ -331,5 +396,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   ${llvm_libs}
   z3::libz3 
   triton::triton
+  XED::XED
 )
 ```
