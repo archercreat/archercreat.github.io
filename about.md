@@ -6,7 +6,7 @@ comments: false
 ---
 
 
-**Find me on:**
+Find me on:
 
 - {{ site.author.email }}
 - github.com/{{ site.author.github }}
