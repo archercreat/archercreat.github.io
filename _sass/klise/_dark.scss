@@ -235,13 +235,4 @@ body[data-theme="dark"] {
       color: $dark-text-link-blue-active;
     }
   }  
-
-  .search-article {
-    input[type="search"] {
-      color: $dark-text-base-color;
-      &::-webkit-input-placeholder {
-        color: rgba(128,128,128,0.8);
-      }
-    }
-  }
 }

@@ -1,5 +1,5 @@
 ---
-title:
+title: Senior malware analyst at Positive Technology
 permalink: /about/
 layout: page
 comments: false
