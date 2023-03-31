@@ -174,37 +174,6 @@ body[data-theme="dark"] {
     }
   }
 
-  // Post Navigation
-  .post-nav {
-    border-color: $dark-light;
-
-    .post-nav-item {
-      font-weight: $bold-weight;
-
-      .post-title {
-        color: $dark-white;
-        opacity: 0.9;
-      }
-
-      &:hover,
-      &:focus {
-        .post-title {
-          color: $dark-text-link-blue-active;
-        }
-      }
-
-      .nav-arrow {
-        color: $dark-gray;
-      }
-    }
-
-    @include media-query($on-mobile) {
-      .post-nav-item:nth-child(even) {
-        border-color: $dark-light;
-      }
-    }
-  }
-
   // Footer
   .footer {
     span.footer_item {
