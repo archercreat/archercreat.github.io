@@ -6,7 +6,7 @@ image: /assets/img/posts/ghidra-ida-vscode/ghidra-logo.jpg
 
 Оба инструмента представляют возможность редактирования скриптов, но из-за скудного встроенного редактора: отсутствие подсветки синтаксиса, автодополнения, автотабуляции, я сразу переключаюсь на альтернативы. В этой небольшой заметке я расскажу как удаленно запускать и отлаживать скрипты через vscode в Ghidra и IDA.
 
-## IDA Python + Vscode
+## IDA Python + vscode
 
 ### Необходимые инструменты
 - [https://github.com/ioncodes/idacode](https://github.com/ioncodes/idacode) - мост между IDA Pro и vscode.
@@ -24,7 +24,7 @@ image: /assets/img/posts/ghidra-ida-vscode/ghidra-logo.jpg
 - `Ctrl+Shift+P -> IDACode: Execute script in IDA`;
 - По умолчанию скрипт будет запускаться при каждом сохранении, что я нахожу это очень неудобным. Чтобы это отключить, в `.vscode/settings.json` нужно добавить строку `"IDACode.executeOnSave": false`.
 
-## Ghidra Python + Vscode
+## Ghidra Python + vscode
 ### Необходимые инструменты
 - [https://github.com/VDOO-Connected-Trust/ghidra-pyi-generator](https://github.com/VDOO-Connected-Trust/ghidra-pyi-generator) - Генератор `pyi` файлов для автодополнения;
 - [https://github.com/justfoxing/ghidra_bridge](https://github.com/justfoxing/ghidra_bridge) - Библиотека для удаленного выполнения скриптов.
