@@ -22,7 +22,7 @@ image: /assets/img/posts/ghidra-ida-vscode/ghidra-logo.jpg
 `PYTHONPATH=F:\tools\IDA Pro 7.7\python\3`;
 - `Ctrl+Shift+P -> IDACode: Connect to IDA`;
 - `Ctrl+Shift+P -> IDACode: Execute script in IDA`;
-- По умолчанию скрипт будет запускаться при каждом сохранении, что я нахожу это очень неудобным. Чтобы это отключить, в `.vscode/settings.json` нужно добавить строку `"IDACode.executeOnSave": false`.
+- По умолчанию скрипт будет запускаться при каждом сохранении, что я нахожу очень неудобным. Чтобы это отключить, в `.vscode/settings.json` нужно добавить строку `"IDACode.executeOnSave": false`.
 
 ## Ghidra Python + vscode
 ### Необходимые инструменты
@@ -38,7 +38,7 @@ image: /assets/img/posts/ghidra-ida-vscode/ghidra-logo.jpg
 pip install ghidra_bridge
 python -m ghidra_bridge.install_server C:\Users\USERNAME\ghidra_scripts\Bridge
 ```
-Советую в папке `ghidra_scripts` создать папку `Bridge` и уже туда установить скрипты сервера. Так же, для удобства, можно вынести скрипты `ghidra_bridge_server_background.py` и `ghidra_bridge_server_shutdown.py` в контекстное меню `Tools -> Ghidra Bridge` (см. пункт 3 в репозитории). В `Script Manager` запустить скрипт `ghidra_bridge_server_background.py`.
+Советую в папке `ghidra_scripts` создать папку `Bridge` и уже туда устанавливать скрипты сервера. Так же, для удобства, можно вынести скрипты `ghidra_bridge_server_background.py` и `ghidra_bridge_server_shutdown.py` в контекстное меню `Tools -> Ghidra Bridge` (см. пункт 3 в репозитории). В `Script Manager` запустить скрипт `ghidra_bridge_server_background.py`.
 
 ### Vscode
 В шапку скрипта необходимо добавить:
